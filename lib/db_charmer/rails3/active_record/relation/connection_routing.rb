@@ -1,6 +1,23 @@
 module DbCharmer
   module ActiveRecord
     module Relation
+      module Merger
+        def self.included(base)
+          base.alias_method_chain :merge, :db_charmer
+        end
+
+        def merge_with_db_charmer(*args, &block)
+          merge_without_db_charmer(*args, &block).tap do |rel|
+
+            ConnectionRouting::DB_CHARMER_ATTRIBUTES.each do |attr|
+              if v = other.send(attr)
+                rel.send("#{attr}=".to_sym, v)
+              end
+            end
+          end
+        end
+      end
+
       module ConnectionRouting
 
         # All the methods that could be querying the database

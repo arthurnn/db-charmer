@@ -116,6 +116,7 @@ require 'db_charmer/rails3/active_record/relation_method'
 require 'db_charmer/rails3/active_record/relation/connection_routing'
 ActiveRecord::Base.extend(DbCharmer::ActiveRecord::RelationMethod)
 ActiveRecord::Relation.send(:include, DbCharmer::ActiveRecord::Relation::ConnectionRouting)
+ActiveRecord::Relation::Merger.send(:include, DbCharmer::ActiveRecord::Relation::Merger)
 
 #---------------------------------------------------------------------------------------------------
 # Enable connection proxy for associations
